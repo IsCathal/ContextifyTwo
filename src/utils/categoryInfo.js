@@ -1,7 +1,3 @@
-
-import nlp from 'compromise';
-
-
 export const categoryInfo = {
   'History & Society': {
     color: 'green',

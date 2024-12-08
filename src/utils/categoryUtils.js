@@ -2,8 +2,11 @@ import nlp from 'compromise';
 import { categoryInfo } from './categoryInfo';
 
 export function getCategoryInfo(category) {
-  return categoryInfo[category] || null;
+  const info = categoryInfo[category] || null;
+  console.log(`Category info for "${category}":`, info);
+  return info;
 }
+
 
 export function categorizeSentence(sentence) {
   const doc = nlp(sentence);
@@ -13,7 +16,7 @@ export function categorizeSentence(sentence) {
     const { keywords } = data;
     for (const keyword of keywords) {
       if (terms.includes(keyword)) {
-        console.log(`Keyword matched: "${keyword}" in category "${category}"`);
+       // console.log(`Keyword matched: "${keyword}" in category "${category}"`);
         return category;
       }
     }
