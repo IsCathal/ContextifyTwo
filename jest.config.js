@@ -1,10 +1,10 @@
 export default {
-  roots: ['<rootDir>/src'], // Set Jest's root directory
+  roots: ['<rootDir>/src'], // Define the root folder for tests
   moduleNameMapper: {
-    '^@/(.*)$': '<rootDir>/src/$1' // Map `@/` to `src/` if using aliases
+    '^@/(.*)$': '<rootDir>/src/$1', // Map `@/` to `src/` if using aliases
   },
   transform: {
-    '^.+\\.js$': 'babel-jest' // Use Babel to transform ES6+
+    '^.+\\.js$': 'babel-jest', // Use Babel for ES6+ transformation
   },
-  testEnvironment: 'node' // Use Node.js environment for tests
+  testEnvironment: 'jest-environment-jsdom', // Set the test environment to jsdom
 };
