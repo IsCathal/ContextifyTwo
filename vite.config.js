@@ -12,7 +12,10 @@ export default defineConfig({
         { src: 'src/style.css', dest: '.' },    // Copy style.css
         { src: 'src/utils/categoryInfo.js', dest: 'utils' },
         { src: 'src/utils/categoryUtils.js', dest: 'utils' },
-        { src: 'src/utils/highlightUtils.js', dest: 'utils' }
+        { src: 'src/utils/highlightUtils.js', dest: 'utils' },
+        { src: 'src/utils/apiUtils.js', dest: 'utils' }
+
+
       ],
     }),
     {
