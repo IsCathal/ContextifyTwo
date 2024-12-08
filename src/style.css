@@ -253,5 +253,36 @@ a {
 .color-box.blue {
   background-color: blue;
 }
+#floating-helper {
+  max-width: 400px;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+}
 
+#floating-helper h1, #floating-helper h2, #floating-helper h3 {
+  margin: 10px 0;
+  font-weight: bold;
+}
+
+#floating-helper ul {
+  margin: 10px 0;
+  padding-left: 20px;
+  list-style-type: disc;
+}
+
+#floating-helper li {
+  margin-bottom: 8px;
+}
+
+#floating-helper p {
+  margin: 10px 0;
+}
+
+#floating-helper code {
+  font-family: 'Courier New', Courier, monospace;
+  background-color: #f4f4f4;
+  padding: 2px 4px;
+  border-radius: 4px;
+}
 

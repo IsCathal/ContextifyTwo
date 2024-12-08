@@ -1,3 +1,4 @@
+import { marked } from 'marked';
 import { categorizeSentence, getCategoryInfo } from './categoryUtils';
 import { fetchExplanationFromAPIWithContext } from './apiUtils'; // Create a new file for API utilities
 
@@ -47,10 +48,12 @@ export function addClickEventToTooltips() {
       const rect = event.target.getBoundingClientRect();
       showFloatingHelper(rect.x + window.scrollX, rect.y + window.scrollY);
 
-      const explanation = await fetchExplanationFromAPIWithContext(sentence, title, description);
-
-      const helperContent = document.getElementById('helper-content');
-      helperContent.textContent = explanation || 'Unable to fetch explanation.';
+      try {
+        const explanation = await fetchExplanationFromAPIWithContext(sentence, title, description);
+        showFloatingHelper(rect.x + window.scrollX, rect.y + window.scrollY, explanation);
+      } catch (error) {
+        showFloatingHelper(rect.x + window.scrollX, rect.y + window.scrollY, 'Error fetching explanation.');
+      }
     });
   });
 }
@@ -117,7 +120,10 @@ function makeElementDraggable(element) {
 function showFloatingHelper(x, y, content = 'Processing...') {
   const helper = document.getElementById('floating-helper');
   const helperContent = document.getElementById('helper-content');
-  helperContent.textContent = content;
+
+  // Convert Markdown to HTML if content is in Markdown
+  helperContent.innerHTML = typeof content === 'string' ? marked(content) : content;
+
   helper.style.left = `${x}px`;
   helper.style.top = `${y}px`;
   helper.style.display = 'block';

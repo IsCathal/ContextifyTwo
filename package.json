@@ -19,6 +19,7 @@
     "vite-plugin-static-copy": "^2.2.0"
   },
   "dependencies": {
-    "compromise": "^14.14.3"
+    "compromise": "^14.14.3",
+    "marked": "^15.0.3"
   }
 }
