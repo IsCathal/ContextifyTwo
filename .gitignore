@@ -26,6 +26,8 @@ dist-ssr
 # Build output
 dist/
 
+# Test Reports
+coverage/
 
 # Local environment files
 .env
