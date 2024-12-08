@@ -1,92 +1,27 @@
 import { getCategoryInfo, categorizeSentence } from '../utils/categoryUtils';
+import { categoryInfo } from '../utils/categoryInfo'; // Import the actual data
 
-
-const mockCategoryInfo = {
-  sports: {
-    keywords: ['football', 'basketball', 'tennis']
-  },
-  technology: {
-    keywords: ['computer', 'AI', 'robotics']
-  }
-};
-
-jest.mock('../utils/categoryInfo', () => ({
-  categoryInfo: {
-    'History & Society': {
-      keywords: [
-        'history', 'society', 'politics', 'tradition', 'culture', 'social',
-        'heritage', 'civilization', 'revolution', 'democracy', 'colonialism', 'ethnography',
-        'customs', 'norms', 'rituals', 'governance', 'commemoration'
-      ],
+// Mock the categoryInfo module, but use the actual data by default
+jest.mock('../utils/categoryInfo', () => {
+  const actual = jest.requireActual('../utils/categoryInfo');
+  return {
+    ...actual, // Include all actual data
+    categoryInfo: {
+      ...actual.categoryInfo, // Spread the real categoryInfo data
+      // Optionally, add or override for specific test cases if necessary
     },
-    'Literature & Art': {
-      keywords: [
-        'literature', 'art', 'music', 'mythology', 'philosophy', 'biography',
-        'poetry', 'novel', 'drama', 'painting', 'sculpture', 'iconography',
-        'manuscript', 'allegory', 'aesthetics', 'opera', 'prose', 'narrative'
-      ],
-    },
-    'Places & Spaces': {
-      keywords: [
-        'place', 'space', 'architecture', 'landmark', 'geography', 'location',
-        'city', 'village', 'monument', 'region', 'terrain', 'infrastructure',
-        'map', 'route', 'habitat', 'urban', 'rural', 'environment'
-      ],
-    },
-    'Performance & Expression': {
-      keywords: [
-        'performance', 'expression', 'theater', 'dance', 'ritual', 'speech',
-        'drama', 'song', 'acting', 'poetry slam', 'performance art', 'movement',
-        'gesture', 'ceremony', 'improvisation', 'stage', 'costume', 'dialogue'
-      ],
-    },
-    'The Human Experience': {
-      keywords: [
-        'emotion', 'relationship', 'health', 'dream', 'memory', 'mortality', 'body',
-        'family', 'love', 'fear', 'hope', 'grief', 'joy',
-        'hunger', 'illness', 'aging', 'birth', 'identity', 'spirituality'
-      ],
-    },
-    "The Creator's Lens": {
-      keywords: [
-        'style', 'narrative', 'creative', 'interpret', 'technique', 'framework',
-        'symbolism', 'metaphor', 'imagery', 'tone', 'voice', 'structure',
-        'drafting', 'editing', 'perspective', 'context', 'genre', 'subtext'
-      ],
-    },
-  },
-}));
-
+  };
+});
 
 describe('getCategoryInfo', () => {
   it('should return category information if the category exists', () => {
     const category = 'Places & Spaces';
 
-    const expected = {
-      keywords: [
-        'place',
-        'space',
-        'architecture',
-        'landmark',
-        'geography',
-        'location',
-        'city',
-        'village',
-        'monument',
-        'region',
-        'terrain',
-        'infrastructure',
-        'map',
-        'route',
-        'habitat',
-        'urban',
-        'rural',
-        'environment',
-      ],
-    };
+    // Use the actual data for the test
+    const expected = categoryInfo[category];
 
     const result = getCategoryInfo(category);
-    expect(result).toEqual(expected); // Deep equality check
+    expect(result).toEqual(expected);
   });
 
   it('should return null if the category does not exist', () => {
@@ -98,17 +33,32 @@ describe('getCategoryInfo', () => {
 
 describe('categorizeSentence', () => {
   it('should return the correct category if a keyword is found', () => {
-    const result = categorizeSentence('I architecture exploring the architecture.');
+    const sentence = 'here—for with your leave, my sister, I will put some trust in preceding navigators—there snow and frost are banished; and, sailing over a calm sea, we may be wafted to a land surpassing in wonders and in beauty every region hitherto discovered on the habitable globe.';
+    const result = categorizeSentence(sentence);
     expect(result).toBe('Places & Spaces');
   });
 
   it('should return null if no keywords match', () => {
-    const result = categorizeSentence('This is a random sentence.');
+    const sentence = 'This is a random sentence.';
+    const result = categorizeSentence(sentence);
     expect(result).toBeNull();
   });
 
   it('should be case insensitive', () => {
-    const result = categorizeSentence('These are my enticements, and they are sufficient to conquer all fear of danger or death and to induce me to commence this laborious voyage with the joy a child feels when he embarks in a little boat, with his holiday mates, on an expedition of discovery up his native river..');
-    expect(result).toBe('The Human Experience');
+    const sentence = 'Oh, that some encouraging voice would answer in the affirmative!';
+    const result = categorizeSentence(sentence);
+    expect(result).toBe("The Creator's Lens");
+  });
+
+  it('should match sentences with complex words from keywords', () => {
+    const sentence = 'The urban infrastructure is improving in cities.';
+    const result = categorizeSentence(sentence);
+    expect(result).toBe('Places & Spaces');
+  });
+
+  it('should match sentences with multiple keywords from different categories', () => {
+    const sentence = 'History and culture have shaped this place.';
+    const result = categorizeSentence(sentence);
+    expect(result).toBe('History & Society');
   });
 });
